@@ -32,3 +32,8 @@ data/processed/*
 # Reports generated locally
 final.md
 tempCodeRunnerFile.py
+
+# Application report exports
+reports/code_sample_for_application.docx
+reports/code_sample_for_application.md
+reports/code_sample_for_application.pdf
