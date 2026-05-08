@@ -1,0 +1,6 @@
+metric,value
+Cancer type,TCGA-BRCA
+Patients,1083
+Overall survival events,151
+"Median follow-up, months",28.3
+Median age at diagnosis,58

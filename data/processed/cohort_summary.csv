@@ -1,0 +1,7 @@
+metric,value
+Number of patients,1083
+Number of OS events,151
+OS event proportion,0.139
+"Median follow-up, months",28.3
+Median age at diagnosis,58
+Patients with missing stage,24

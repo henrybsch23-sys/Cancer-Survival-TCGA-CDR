@@ -3,9 +3,6 @@ __pycache__/
 .venv/
 *.pyc
 
-# Legacy dashboard (app_1.py is the active version)
-app.py
-
 # R
 .Rhistory
 .RData
@@ -17,16 +14,22 @@ app.py
 # Streamlit secrets
 .streamlit/secrets.toml
 
-# Data files
+# Raw data
 data/raw/*
-data/processed/*
 !data/raw/.gitkeep
-!data/processed/.gitkeep
 
-# Large or generated files
+# Keep processed app-ready outputs for Streamlit deployment
+!data/processed/
+!data/processed/.gitkeep
+!data/processed/*.csv
+
+# Keep figures for Streamlit deployment
+!figures/
+!figures/*.png
+
+# Large or generated raw/intermediate files
 *.RData
 *.tsv
-*.csv
 *.xlsx
 
 # Reports generated locally
@@ -37,3 +40,6 @@ tempCodeRunnerFile.py
 reports/code_sample_for_application.docx
 reports/code_sample_for_application.md
 reports/code_sample_for_application.pdf
+
+# Legacy dashboard (app_1.py is the active version)
+app.py
