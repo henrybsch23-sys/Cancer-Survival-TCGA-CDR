@@ -1,13 +1,18 @@
 # TCGA Breast Cancer Survival Dashboard
 
+## Live dashboard
+
+A deployed version of the Streamlit dashboard is available here:
+
+https://cancer-survival-tcga-cdr-gzxwsq2dbktxmjtlet76rz.streamlit.app/
+
+The app presents cohort summaries, Kaplan–Meier survival curves, Cox proportional hazards model results, proportional hazards diagnostics, and visual interpretation of survival patterns among TCGA-BRCA breast cancer patients.
+
 ## Overview
 
-This project demonstrates a reproducible survival analysis workflow using the TCGA Pan-Cancer Clinical Data Resource (TCGA-CDR). The current version focuses on breast cancer patients from TCGA-BRCA and includes data cleaning, descriptive epidemiology, Kaplan-Meier survival estimation, Cox proportional hazards regression, model diagnostics, and an interactive Streamlit dashboard.
+This project demonstrates a reproducible survival analysis workflow using the TCGA Pan-Cancer Clinical Data Resource. The current version focuses on breast cancer patients from TCGA-BRCA and includes data cleaning, descriptive epidemiology, Kaplan–Meier survival estimation, Cox proportional hazards regression, proportional hazards diagnostics, and a Streamlit dashboard.
 
-The project combines R and Python:
-
-- **R** is used for the main statistical analysis workflow.
-- **Python** is used for the Streamlit dashboard and optional machine learning notebooks.
+The statistical analysis is implemented in R, while the dashboard is implemented in Python using Streamlit.
 
 ## Motivation
 
@@ -137,42 +142,47 @@ Therefore, stage hazard ratios should be interpreted as average associations ove
 ## Repository Structure
 
 ```text
-Cancer-Survival-TCGA/
-|
-|-- app.py
-|-- README.md
-|-- requirements.txt
-|-- .gitignore
-|-- LICENSE
-|
-|-- data/
-|   |-- raw/
-|   |   `-- .gitkeep
-|   `-- processed/
-|       `-- .gitkeep
-|
-|-- R/
-|   |-- 01_inspect_excel_sheets.R
-|   |-- 02_clean_tcga_cdr.R
-|   |-- 03_descriptive_analysis.R
-|   |-- 04_kaplan_meier.R
-|   |-- 05_cox_regression.R
-|   `-- 06_export_for_streamlit.R
-|
-|-- notebooks/
-|   |-- 01_python_data_check.ipynb
-|   `-- 02_ml_risk_prediction_demo.ipynb
-|
-|-- python/
-|   |-- prepare_app_data.py
-|   `-- utils.py
-|
-|-- figures/
-|   |-- km_stage_plot.png
-|   `-- cox_forest_plot.png
-|
-`-- reports/
-    `-- short_project_report.md
+Cancer-Survival-TCGA-CDR/
+│
+├── app_1.py
+├── README.md
+├── requirements.txt
+├── .gitignore
+├── LICENSE
+│
+├── data/
+│   ├── raw/
+│   │   └── .gitkeep
+│   └── processed/
+│       ├── tcga_brca_survival_clean.csv
+│       ├── cohort_summary.csv
+│       ├── stage_summary.csv
+│       ├── gender_summary.csv
+│       ├── age_summary.csv
+│       ├── cox_results.csv
+│       └── cox_ph_assumption_test.csv
+│
+├── R/
+│   ├── 01_inspect_excel_sheets.R
+│   ├── 02_clean_tcga_cdr.R
+│   ├── 03_descriptive_analysis.R
+│   ├── 04_kaplan_meier.R
+│   └── 05_cox_regression.R
+│
+├── notebooks/
+│   ├── 01_python_data_check.ipynb
+│   └── 02_ml_risk_prediction_demo.ipynb
+│
+├── python/
+│   ├── prepare_app_data.py
+│   └── utils.py
+│
+├── figures/
+│   ├── km_stage_plot.png
+│   └── cox_forest_plot.png
+│
+└── reports/
+    └── short_project_report.md
 ```
 
 ## Setup and Installation
@@ -222,10 +232,28 @@ scikit-learn
 jupyter
 ```
 
-## How to Reproduce the Analysis
+## How to run locally
 
-1. Download `TCGA-CDR-SupplementalTableS1.xlsx`.
-2. Place it in:
+Install the Python dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the Streamlit dashboard:
+
+```bash
+streamlit run app_1.py
+```
+
+The app uses the processed CSV files in `data/processed/` and the figures in `figures/`.
+
+## How to reproduce the R analysis
+
+The raw TCGA-CDR Excel file is not included in this repository. To reproduce the full R analysis:
+
+1. Download `TCGA-CDR-SupplementalTableS1.xlsx` from the NCI Genomic Data Commons PanCanAtlas publication resources.
+2. Place the file in:
 
 ```text
 data/raw/TCGA-CDR-SupplementalTableS1.xlsx
@@ -233,35 +261,34 @@ data/raw/TCGA-CDR-SupplementalTableS1.xlsx
 
 3. Run the R scripts in order:
 
-```powershell
+```bash
 Rscript R/01_inspect_excel_sheets.R
 Rscript R/02_clean_tcga_cdr.R
 Rscript R/03_descriptive_analysis.R
 Rscript R/04_kaplan_meier.R
 Rscript R/05_cox_regression.R
-Rscript R/06_export_for_streamlit.R
 ```
 
-4. Launch the Streamlit dashboard:
+These scripts generate the cleaned dataset, summary tables, Kaplan–Meier plot, Cox model results, proportional hazards diagnostics, and forest plot.
 
-```powershell
-streamlit run app.py
-```
+## Deployment note
 
-## Main Outputs
+The deployed Streamlit app uses the processed CSV files and figure outputs committed to the repository. The raw TCGA-CDR Excel file is not required for the deployed app and is intentionally excluded from version control.
+
+## Main outputs
 
 | Output | File |
 |---|---|
-| Cleaned BRCA dataset | `data/processed/tcga_brca_survival_clean.csv` |
+| Cleaned BRCA cohort | `data/processed/tcga_brca_survival_clean.csv` |
 | Cohort summary | `data/processed/cohort_summary.csv` |
 | Stage summary | `data/processed/stage_summary.csv` |
 | Age summary | `data/processed/age_summary.csv` |
 | Gender summary | `data/processed/gender_summary.csv` |
 | Cox model results | `data/processed/cox_results.csv` |
-| PH assumption test | `data/processed/cox_ph_assumption_test.csv` |
-| Kaplan-Meier plot | `figures/km_stage_plot.png` |
+| Proportional hazards diagnostics | `data/processed/cox_ph_assumption_test.csv` |
+| Kaplan–Meier plot | `figures/km_stage_plot.png` |
 | Cox forest plot | `figures/cox_forest_plot.png` |
-| Streamlit dashboard | `app.py` |
+| Streamlit dashboard | `app_1.py` |
 
 ## Streamlit Dashboard
 
