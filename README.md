@@ -1,4 +1,4 @@
-# TCGA Breast Cancer Survival Dashboard
+# TCGA Breast Cancer Survival Analysis
 
 ## Live dashboard
 
@@ -6,26 +6,34 @@ A deployed version of the Streamlit dashboard is available here:
 
 https://cancer-survival-tcga-cdr-gzxwsq2dbktxmjtlet76rz.streamlit.app/
 
-The app presents cohort summaries, Kaplan–Meier survival curves, Cox proportional hazards model results, proportional hazards diagnostics, and visual interpretation of survival patterns among TCGA-BRCA breast cancer patients.
+The dashboard presents cohort summaries, Kaplan–Meier survival curves, Cox proportional hazards regression results, model diagnostics, a machine learning risk prediction demo, and visual interpretations of survival patterns among TCGA-BRCA breast cancer patients.
+
+---
 
 ## Overview
 
-This project demonstrates a reproducible survival analysis workflow using the TCGA Pan-Cancer Clinical Data Resource. The current version focuses on breast cancer patients from TCGA-BRCA and includes data cleaning, descriptive epidemiology, Kaplan–Meier survival estimation, Cox proportional hazards regression, proportional hazards diagnostics, and a Streamlit dashboard.
+This project demonstrates a reproducible survival analysis and machine learning workflow using the open-access **TCGA Pan-Cancer Clinical Data Resource (TCGA-CDR)**. The analysis focuses on breast cancer patients (TCGA-BRCA) and covers the full pipeline from raw data to an interactive dashboard.
 
-The statistical analysis is implemented in R, while the dashboard is implemented in Python using Streamlit.
+The project is split across two languages by design:
+
+- **R** — data cleaning, descriptive statistics, Kaplan–Meier survival estimation, Cox proportional hazards regression, and model diagnostics.
+- **Python** — data validation notebooks, machine learning risk prediction, and an interactive Streamlit dashboard.
+
+---
 
 ## Motivation
 
-This project was developed as a portfolio project for research roles in cancer epidemiology, biostatistics, precision medicine, and data-driven health research.
+This project was developed as a portfolio project for research roles in cancer epidemiology, biostatistics, precision medicine, and data-driven health research. It demonstrates practical skills in:
 
-The aim is to demonstrate practical skills in:
-
-- Clinical data cleaning
-- Survival analysis
-- Cox regression
-- Statistical interpretation
-- Reproducible research workflows
+- Clinical data cleaning and reproducible pipelines
+- Survival analysis (Kaplan–Meier, log-rank, Cox regression)
+- Proportional hazards diagnostics (Schoenfeld residuals)
+- Censoring-aware machine learning outcome definition
+- Supervised classification with imbalanced clinical data
+- Model evaluation (AUC, calibration, confusion matrix)
 - Interactive communication of epidemiological results
+
+---
 
 ## Dataset
 
@@ -35,7 +43,7 @@ The project uses the open-access TCGA Pan-Cancer Clinical Data Resource:
 TCGA-CDR-SupplementalTableS1.xlsx
 ```
 
-The file should be downloaded from the NCI Genomic Data Commons PanCanAtlas publication resources and placed in:
+Download from the NCI GDC PanCanAtlas publication resources and place in:
 
 ```text
 data/raw/TCGA-CDR-SupplementalTableS1.xlsx
@@ -43,108 +51,116 @@ data/raw/TCGA-CDR-SupplementalTableS1.xlsx
 
 Only open-access clinical and survival outcome data are used. No controlled-access genomic data, raw sequencing data, or identifiable patient data are used.
 
-## Research Question
+**Reference:** Liu et al. (2018). An Integrated TCGA Pan-Cancer Clinical Data Resource to Drive High-Quality Survival Outcome Analytics. *Cell*, 173(2), 400–416.
 
-Among TCGA breast cancer patients, are age at diagnosis and pathological tumor stage associated with overall survival?
+---
 
-## Endpoint
+## Research Questions
 
-The main endpoint is **overall survival**.
+1. Among TCGA-BRCA patients, are **age at diagnosis** and **pathological tumour stage** associated with overall survival?
+2. Can a **censoring-aware** machine learning classifier predict 3-year mortality using clinical variables available at diagnosis?
 
-| Variable | Meaning |
-|---|---|
-| `OS` | Overall survival event indicator; 1 = death, 0 = censored/alive at last follow-up |
-| `OS.time` | Follow-up time in days |
-| `os_time_months` | Follow-up time converted to months |
-
-Patients who did not die during recorded follow-up are treated as censored observations.
+---
 
 ## Methods
 
-The analysis includes:
+### Part 1 — Survival analysis (R)
 
-1. Inspection of the TCGA-CDR Excel workbook
-2. Filtering to TCGA-BRCA breast cancer patients
-3. Cleaning age, stage, survival time, and survival event variables
-4. Descriptive cohort analysis
-5. Kaplan-Meier survival estimation by pathological stage
-6. Log-rank comparison of survival curves
-7. Cox proportional hazards regression
-8. Proportional hazards assumption testing
-9. Export of analysis-ready tables and figures
-10. Visualization in a Streamlit dashboard
+| Step | Script | Description |
+|---|---|---|
+| 1 | `R/01_inspect_excel_sheets.R` | Inspect sheet names and preview column headers |
+| 2 | `R/02_clean_tcga_cdr.R` | Subset to BRCA, recode variables, handle missing values, export cleaned CSV |
+| 3 | `R/03_descriptive_analysis.R` | Generate cohort summary, stage, age, and gender tables |
+| 4 | `R/04_kaplan_meier.R` | Kaplan–Meier curves by stage with log-rank test |
+| 5 | `R/05_cox_regression.R` | Cox regression (age + stage), Schoenfeld PH test, forest plot |
+| 6 | `R/06_export_for_streamlit.R` | Validate all processed files and export app summary |
 
-## Current Analysis Variables
+### Part 2 — Python data validation and ML (notebooks)
+
+| Notebook | Description |
+|---|---|
+| `notebooks/01_python_data_check.ipynb` | Load cleaned cohort, inspect missingness, validate distributions |
+| `notebooks/02_ml_risk_prediction_demo.ipynb` | Censoring-aware 3-year mortality prediction with Logistic Regression, Random Forest, and Gradient Boosting |
+
+The ML outcome definition excludes patients censored before 3 years (53.2 % of the cohort) because their 3-year status is unknown. This avoids outcome misclassification bias and mirrors the landmark analysis approach used in clinical epidemiology.
+
+---
+
+## Analysis Variables
 
 | Original TCGA-CDR column | Cleaned variable | Use |
 |---|---|---|
 | `bcr_patient_barcode` | `patient_id` | Patient identifier |
 | `type` | `cancer_type` | Cancer type filter |
-| `age_at_initial_pathologic_diagnosis` | `age` | Predictor |
+| `age_at_initial_pathologic_diagnosis` | `age` | Continuous predictor |
 | `gender` | `gender` | Descriptive variable |
-| `race` | `race` | Stored for future descriptive work |
-| `ajcc_pathologic_tumor_stage` | `stage_group` | Main clinical predictor |
-| `OS` | `os_event` | Survival event indicator |
+| `race` | `race` | Descriptive / ML feature |
+| `menopause_status` | `menopause_status` | Descriptive / ML feature |
+| `histological_type` | `histological_type` | Descriptive / ML feature |
+| `ajcc_pathologic_tumor_stage` | `stage_group` | Main clinical predictor (grouped I–IV) |
+| `OS` | `os_event` | Survival event indicator (1 = death) |
 | `OS.time` | `os_time_days`, `os_time_months` | Follow-up time |
 
-Other TCGA-CDR endpoints such as `DSS`, `DFI`, and `PFI` are not used in the current MVP version, but may be added in future extensions.
+Other TCGA-CDR endpoints (`DSS`, `DFI`, `PFI`) are not used in the current version but are candidates for future extensions.
+
+---
 
 ## Key Results
 
-The cleaned TCGA-BRCA cohort included:
+### Cohort
 
 | Metric | Value |
 |---|---:|
 | Patients | 1,083 |
 | Overall survival events | 151 |
-| Overall survival event proportion | 13.9% |
+| Event rate | 13.9 % |
 | Median follow-up | 28.3 months |
 | Median age at diagnosis | 58 years |
 | Patients with missing stage | 24 |
 
-### Stage Distribution
+### Stage distribution
 
 | Stage | Patients | Percent |
 |---|---:|---:|
-| Stage I | 182 | 16.8% |
-| Stage II | 612 | 56.5% |
-| Stage III | 245 | 22.6% |
-| Stage IV | 20 | 1.8% |
-| Missing | 24 | 2.2% |
+| Stage I | 182 | 16.8 % |
+| Stage II | 612 | 56.5 % |
+| Stage III | 245 | 22.6 % |
+| Stage IV | 20 | 1.8 % |
+| Missing | 24 | 2.2 % |
 
-### Cox Proportional Hazards Model
+### Cox proportional hazards model
 
-The primary Cox model was:
+Model: `Surv(os_time_months, os_event) ~ age + stage_group` (Stage I as reference)
 
-```text
-Surv(os_time_months, os_event) ~ age + stage_group
-```
+| Predictor | Hazard ratio | 95 % CI | p-value |
+|---|---:|---|---|
+| Age, per year | 1.04 | 1.02–1.05 | < 0.001 |
+| Stage II vs Stage I | 1.80 | 1.04–3.12 | 0.034 |
+| Stage III vs Stage I | 3.61 | 2.03–6.44 | < 0.001 |
+| Stage IV vs Stage I | 12.1 | 5.96–24.5 | < 0.001 |
 
-Stage I was used as the reference group.
+The global Schoenfeld residual test was statistically significant, suggesting the proportional hazards assumption may not hold perfectly for stage. Hazard ratios should be interpreted as average associations over follow-up.
 
-| Predictor | Hazard ratio | 95% CI | Interpretation |
-|---|---:|---:|---|
-| Age, per year | 1.04 | 1.02-1.05 | Each additional year of age was associated with higher mortality hazard |
-| Stage II vs Stage I | 1.80 | 1.04-3.12 | Stage II had higher hazard than Stage I |
-| Stage III vs Stage I | 3.61 | 2.03-6.44 | Stage III had substantially higher hazard than Stage I |
-| Stage IV vs Stage I | 12.1 | 5.96-24.5 | Stage IV had much higher hazard than Stage I |
+### ML risk prediction (3-year mortality)
 
-Kaplan-Meier analysis showed lower overall survival among patients with more advanced pathological stage.
+After excluding 576 patients censored before 3 years, the ML dataset contained 493 patients (67 deaths, 13.6 % event rate).
 
-## Model Diagnostics
+| Model | Test AUC | CV AUC (5-fold) |
+|---|---:|---:|
+| Logistic regression | 0.720 | 0.743 ± 0.032 |
+| Random forest | 0.671 | 0.692 ± 0.036 |
+| Gradient boosting | — | 0.587 ± 0.040 |
 
-The proportional hazards assumption was assessed using Schoenfeld residuals.
+Logistic regression outperformed tree-based models, consistent with the small sample size and the near-linear dose–response relationship between stage and mortality.
 
-The global proportional hazards test was statistically significant, suggesting that the Cox proportional hazards assumption may not hold perfectly. The issue appeared mainly related to stage group.
-
-Therefore, stage hazard ratios should be interpreted as average associations over follow-up. Future sensitivity analyses could consider stratified Cox models or time-varying effects.
+---
 
 ## Repository Structure
 
 ```text
 Cancer-Survival-TCGA-CDR/
 │
-├── app_1.py
+├── app_1.py                         ← Streamlit dashboard (main app)
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
@@ -152,22 +168,28 @@ Cancer-Survival-TCGA-CDR/
 │
 ├── data/
 │   ├── raw/
-│   │   └── .gitkeep
-│   └── processed/
+│   │   └── .gitkeep                 ← Place TCGA-CDR Excel file here
+│   └── processed/                   ← Generated by R pipeline and notebooks
 │       ├── tcga_brca_survival_clean.csv
 │       ├── cohort_summary.csv
 │       ├── stage_summary.csv
 │       ├── gender_summary.csv
 │       ├── age_summary.csv
 │       ├── cox_results.csv
-│       └── cox_ph_assumption_test.csv
+│       ├── cox_ph_assumption_test.csv
+│       ├── ml_three_year_status_summary.csv
+│       ├── ml_model_comparison.csv
+│       ├── ml_test_predictions.csv
+│       ├── ml_feature_importance.csv
+│       └── ml_logistic_coefficients.csv
 │
 ├── R/
 │   ├── 01_inspect_excel_sheets.R
 │   ├── 02_clean_tcga_cdr.R
 │   ├── 03_descriptive_analysis.R
 │   ├── 04_kaplan_meier.R
-│   └── 05_cox_regression.R
+│   ├── 05_cox_regression.R
+│   └── 06_export_for_streamlit.R
 │
 ├── notebooks/
 │   ├── 01_python_data_check.ipynb
@@ -179,24 +201,30 @@ Cancer-Survival-TCGA-CDR/
 │
 ├── figures/
 │   ├── km_stage_plot.png
-│   └── cox_forest_plot.png
+│   ├── cox_forest_plot.png
+│   ├── ml_roc_curves.png
+│   ├── ml_auc_comparison.png
+│   ├── ml_confusion_matrix_best_model.png
+│   ├── ml_calibration_curves.png
+│   ├── ml_feature_importance.png
+│   └── ml_logistic_odds_ratios.png
 │
 └── reports/
-    └── short_project_report.md
+    ├── short_project_report.md
+    └── code_sample_for_application.pdf
 ```
+
+---
 
 ## Setup and Installation
 
 ### Prerequisites
 
-- R 4.5.1 or later
+- R 4.2 or later
 - Python 3.10 or later
 - Git
-- Streamlit
 
-### R Package Dependencies
-
-Install the required R packages:
+### R package dependencies
 
 ```r
 install.packages(c(
@@ -206,60 +234,25 @@ install.packages(c(
   "survival",
   "survminer",
   "broom",
-  "gtsummary",
   "here"
 ))
 ```
 
-### Python Dependencies
-
-Install Python dependencies from the project root:
-
-```powershell
-pip install -r requirements.txt
-```
-
-A minimal `requirements.txt` should include:
-
-```text
-streamlit
-pandas
-numpy
-matplotlib
-plotly
-openpyxl
-scikit-learn
-jupyter
-```
-
-## How to run locally
-
-Install the Python dependencies:
+### Python dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the Streamlit dashboard:
+---
 
-```bash
-streamlit run app_1.py
-```
+## How to Reproduce the Full Analysis
 
-The app uses the processed CSV files in `data/processed/` and the figures in `figures/`.
+### Step 1 — Download the raw data
 
-## How to reproduce the R analysis
+Download `TCGA-CDR-SupplementalTableS1.xlsx` from the NCI GDC PanCanAtlas resources and place it in `data/raw/`.
 
-The raw TCGA-CDR Excel file is not included in this repository. To reproduce the full R analysis:
-
-1. Download `TCGA-CDR-SupplementalTableS1.xlsx` from the NCI Genomic Data Commons PanCanAtlas publication resources.
-2. Place the file in:
-
-```text
-data/raw/TCGA-CDR-SupplementalTableS1.xlsx
-```
-
-3. Run the R scripts in order:
+### Step 2 — Run the R pipeline (in order)
 
 ```bash
 Rscript R/01_inspect_excel_sheets.R
@@ -267,92 +260,106 @@ Rscript R/02_clean_tcga_cdr.R
 Rscript R/03_descriptive_analysis.R
 Rscript R/04_kaplan_meier.R
 Rscript R/05_cox_regression.R
+Rscript R/06_export_for_streamlit.R
 ```
 
-These scripts generate the cleaned dataset, summary tables, Kaplan–Meier plot, Cox model results, proportional hazards diagnostics, and forest plot.
+> **Note:** Each script reads the output of the preceding one. If you update an earlier script, rerun it and all subsequent scripts to keep processed files consistent.
 
-## Deployment note
+### Step 3 — Run the Python notebooks (in order)
 
-The deployed Streamlit app uses the processed CSV files and figure outputs committed to the repository. The raw TCGA-CDR Excel file is not required for the deployed app and is intentionally excluded from version control.
+Open and run all cells in:
 
-## Main outputs
+1. `notebooks/01_python_data_check.ipynb`
+2. `notebooks/02_ml_risk_prediction_demo.ipynb`
+
+These generate the ML outputs and figures saved to `data/processed/` and `figures/`.
+
+### Step 4 — Launch the Streamlit app
+
+```bash
+streamlit run app_1.py
+```
+
+---
+
+## Streamlit Dashboard
+
+The app is organised into six tabs:
+
+| Tab | Content |
+|---|---|
+| Overview | Analysis summary and preview of the cleaned dataset |
+| Cohort description | Stage, age, and gender distributions with sidebar filters |
+| Kaplan–Meier analysis | Survival curves by pathological stage |
+| Cox regression | Hazard ratio table, forest plot, and PH assumption test |
+| ML risk prediction | 3-year mortality prediction demo with model comparison, ROC curves, calibration, confusion matrix, and model interpretation |
+| Methods and limitations | Full methodological description and limitations |
+
+---
+
+## Main Outputs
 
 | Output | File |
 |---|---|
 | Cleaned BRCA cohort | `data/processed/tcga_brca_survival_clean.csv` |
 | Cohort summary | `data/processed/cohort_summary.csv` |
-| Stage summary | `data/processed/stage_summary.csv` |
-| Age summary | `data/processed/age_summary.csv` |
-| Gender summary | `data/processed/gender_summary.csv` |
 | Cox model results | `data/processed/cox_results.csv` |
-| Proportional hazards diagnostics | `data/processed/cox_ph_assumption_test.csv` |
+| PH assumption test | `data/processed/cox_ph_assumption_test.csv` |
+| ML model comparison | `data/processed/ml_model_comparison.csv` |
+| ML test predictions | `data/processed/ml_test_predictions.csv` |
 | Kaplan–Meier plot | `figures/km_stage_plot.png` |
 | Cox forest plot | `figures/cox_forest_plot.png` |
-| Streamlit dashboard | `app_1.py` |
+| ROC curves | `figures/ml_roc_curves.png` |
+| Calibration curves | `figures/ml_calibration_curves.png` |
+| Confusion matrix | `figures/ml_confusion_matrix_best_model.png` |
+| RF feature importance | `figures/ml_feature_importance.png` |
+| Logistic odds ratios | `figures/ml_logistic_odds_ratios.png` |
 
-## Streamlit Dashboard
-
-The Streamlit dashboard includes:
-
-- Cohort overview
-- Descriptive summaries
-- Kaplan-Meier survival plot by pathological stage
-- Cox regression table
-- Cox forest plot
-- Proportional hazards assumption results
-- Methods and limitations
-
-When running locally, the dashboard is available only while the Streamlit process is active. If the terminal or Cursor session is closed, the local dashboard stops. The app can later be deployed through Streamlit Community Cloud.
+---
 
 ## Limitations
 
-This project has several important limitations:
-
-- TCGA is not a population-based cancer registry.
+- TCGA is not a population-based cancer registry; results may not generalise to broader populations.
 - The analysis is observational and should not be interpreted causally.
-- Follow-up time is relatively limited for some patients.
-- Missingness varies across clinical variables.
-- Stage IV includes a small number of BRCA patients in this dataset.
-- The proportional hazards assumption may not hold perfectly for stage group.
-- Results are intended for educational and portfolio purposes, not clinical decision support.
+- Follow-up time is limited for a substantial fraction of patients (median ~28 months).
+- Missingness in race (7.7 %) and menopause status (7.7 %) is handled by complete-case analysis in the survival models and mode imputation in the ML pipeline.
+- The Stage IV subgroup is small (n = 20), limiting the precision of Stage IV estimates.
+- The proportional hazards assumption is not perfectly satisfied; stage hazard ratios reflect average associations over follow-up.
+- ER/PR/HER2 receptor status and tumour grade — the strongest prognostic markers in breast cancer — are not available in the TCGA-CDR clinical table and are absent from all models.
+- The ML section is a methodological demonstration. The models have not been externally validated and are not intended for clinical decision support.
+- The ML dataset is small (~493 patients, 67 events) after excluding early-censored patients; results should be interpreted as indicative.
+
+---
 
 ## Planned Extensions
 
-Potential future extensions include:
+| Version | Extension | Status |
+|---|---|---|
+| v1 | BRCA survival analysis, R pipeline, Kaplan–Meier, Cox, dashboard | **Complete** |
+| v2 | Python notebooks, ML 3-year mortality prediction | **Complete** |
+| v3 | Multi-cancer comparison (BRCA + LUAD/LUSC or COAD) | Planned |
+| v4 | Alternative endpoints (PFI, DSS) | Planned |
+| v5 | Molecular / genomics extension (ER/PR/HER2, PAM50 subtype) | Planned |
 
-1. **Python data validation notebook**
-   - Check missingness
-   - Validate variable coding
-   - Summarize the cleaned BRCA cohort using pandas
+---
 
-2. **Machine learning demo**
-   - Predict 3-year mortality status using age and stage
-   - Exclude patients censored before 3 years
-   - Compare simple logistic regression or random forest performance
+## Deployment
 
-3. **Cancer-type comparison**
-   - Compare BRCA with LUAD/LUSC or another cancer type
-   - Evaluate whether stage-survival patterns differ across cancers
+The deployed Streamlit app uses the processed CSV files and figure outputs committed to the repository. The raw TCGA-CDR Excel file is excluded from version control (see `.gitignore`).
 
-4. **Alternative survival endpoints**
-   - Repeat the analysis using PFI or DSS
-   - Compare results with OS-based analysis
-
-5. **Molecular extension**
-   - Add open-access molecular features later, such as mutation or expression-based summaries
-   - This is intentionally left for a later version because it increases project complexity
+---
 
 ## Application Relevance
 
-This project demonstrates skills in:
+This project demonstrates combined competence in:
 
-- Epidemiological data management
-- R-based statistical analysis
-- Survival analysis
-- Cox proportional hazards regression
-- Model diagnostics
-- Python-based dashboard development
-- Reproducible research workflows
-- Scientific interpretation of clinical data
+- Epidemiological data management and clinical variable coding
+- R-based statistical analysis and survival modelling
+- Proportional hazards diagnostics and assumption testing
+- Censoring-aware machine learning in a clinical context
+- Model evaluation including calibration — beyond AUC
+- Python pipeline design with sklearn `Pipeline` and `ColumnTransformer`
+- Interactive dashboard development with Streamlit
+- Reproducible research workflow design
 
-The project is especially relevant to applications in cancer epidemiology, biostatistics, precision medicine, clinical epidemiology, and data-driven health research.
+The project is especially relevant to applications in cancer epidemiology, biostatistics, precision medicine, clinical data science, and data-driven health research.

@@ -1,0 +1,17 @@
+feature,coefficient,odds_ratio
+cat__stage_group_Stage IV,2.301,9.986
+cat__stage_group_Stage III,1.812,6.12
+cat__histological_type_Metaplastic Carcinoma,0.929,2.533
+num__age,0.66,1.935
+cat__stage_group_Stage II,0.476,1.609
+cat__race_BLACK OR AFRICAN AMERICAN,0.472,1.603
+"cat__histological_type_Other, specify",0.463,1.588
+cat__menopause_status_[Not Evaluated],0.291,1.338
+cat__histological_type_Mucinous Carcinoma,0.202,1.224
+cat__menopause_status_Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),-0.006,0.994
+cat__histological_type_Infiltrating Lobular Carcinoma,-0.261,0.77
+cat__menopause_status_Peri (6-12 months since last menstrual period),-0.357,0.7
+cat__race_WHITE,-0.42,0.657
+cat__histological_type_Medullary Carcinoma,-0.489,0.613
+cat__menopause_status_Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),-0.595,0.552
+cat__histological_type_Mixed Histology (please specify),-1.549,0.213

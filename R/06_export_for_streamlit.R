@@ -1,3 +1,22 @@
+# =============================================================================
+# 06_export_for_streamlit.R
+# Validate and export all Streamlit app input files — TCGA-BRCA
+#
+# Purpose:
+#   Verify that all required processed files produced by the preceding R
+#   scripts (02–05) are present, then write an app_summary.csv containing a
+#   high-level cohort overview for display in the Streamlit dashboard.
+#
+# Input:  data/processed/tcga_brca_survival_clean.csv  (from 02)
+#         data/processed/cohort_summary.csv            (from 03)
+#         data/processed/stage_summary.csv             (from 03)
+#         data/processed/gender_summary.csv            (from 03)
+#         data/processed/age_summary.csv               (from 03)
+#         data/processed/cox_results.csv               (from 05)
+#         data/processed/cox_ph_assumption_test.csv    (from 05)
+# Output: data/processed/app_summary.csv
+# =============================================================================
+
 library(tidyverse)
 library(here)
 

@@ -1,0 +1,125 @@
+age,stage_group,race,menopause_status,histological_type,true_death_within_3y,logistic_regression_prob,logistic_regression_label,random_forest_prob,random_forest_label,gradient_boosting_prob,gradient_boosting_label
+43,Stage III,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Mixed Histology (please specify),0,0.10709349941464656,0,0.2923626769258111,0,0.08706282027429255,0
+60,Stage I,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.27760305646995365,0,0.4344866883981987,0,0.027536258740221402,0
+46,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.23672809157517846,0,0.3053722684100416,0,0.029691322035450524,0
+80,Stage III,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,1,0.8630726014351217,1,0.7385809931697732,1,0.8913777351213917,1
+69,Stage I,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.3745484617095596,0,0.553989366089599,1,0.5260936121675963,1
+45,Stage III,WHITE,,Infiltrating Ductal Carcinoma,1,0.5289228387557476,1,0.50288582188229,1,0.33240988532847104,0
+36,Stage II,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.0950994032372145,0,0.18550672193390227,0,0.035980167517788014,0
+67,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.4661603701864267,0,0.4749260933221871,0,0.43095163684837473,0
+37,Stage I,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.0642010249318408,0,0.22297558546871105,0,0.01153500521690517,0
+55,Stage III,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Lobular Carcinoma,1,0.5860819020708404,1,0.5857652603634982,1,0.7871820849820065,1
+52,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.2942255849424477,0,0.3400741945334581,0,0.7496685850489249,1
+49,Stage II,WHITE,Indeterminate (neither Pre or Postmenopausal),Infiltrating Ductal Carcinoma,0,0.26560642875015816,0,0.2874055686495202,0,0.18039482165473353,0
+52,Stage I,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.2057526522610277,0,0.42974517839726817,0,0.3851561461106432,0
+78,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.6002839900245749,1,0.5709585564294197,1,0.6024924720707939,1
+51,Stage II,BLACK OR AFRICAN AMERICAN,Indeterminate (neither Pre or Postmenopausal),Infiltrating Ductal Carcinoma,0,0.49350394711415857,0,0.4320312336665251,0,0.6111718249787409,1
+39,Stage III,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.3166498572721075,0,0.32643438761588184,0,0.01208302675862702,0
+50,Stage II,BLACK OR AFRICAN AMERICAN,Indeterminate (neither Pre or Postmenopausal),Infiltrating Ductal Carcinoma,0,0.4811894114289435,0,0.43562924182759166,0,0.6111718249787409,1
+55,Stage II,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.5412527875695983,1,0.44411715836536014,0,0.0232953062091125,0
+58,Stage III,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,1,0.680619312853993,1,0.5943911248032752,1,0.13766065137761924,0
+50,Stage III,WHITE,,Infiltrating Lobular Carcinoma,0,0.5253109404567988,1,0.578792746458049,1,0.32645399870282055,0
+38,Stage II,WHITE,Indeterminate (neither Pre or Postmenopausal),Infiltrating Ductal Carcinoma,0,0.1737551890551831,0,0.2547488344341257,0,0.054000742905151174,0
+78,Stage I,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.48272618439497056,0,0.5804818385079638,1,0.3016750986340126,0
+62,Stage IV,WHITE,Indeterminate (neither Pre or Postmenopausal),Infiltrating Ductal Carcinoma,1,0.809879388979954,1,0.4196710585433462,0,0.4136023748580012,0
+35,Stage I,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.05852653483471287,0,0.22297558546871105,0,0.01153500521690517,0
+54,Stage II,ASIAN,Indeterminate (neither Pre or Postmenopausal),"Other, specify",1,0.5281159558450855,1,0.35218504516977683,0,0.017576797231982907,0
+70,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Lobular Carcinoma,0,0.43815815812948816,0,0.5376427636303032,1,0.6899302908365765,1
+46,Stage I,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Lobular Carcinoma,0,0.07608963898396522,0,0.21997368671420928,0,0.0018249784382844358,0
+40,Stage III,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Lobular Carcinoma,0,0.2727192139551704,0,0.33421632918820104,0,0.029087407020359623,0
+80,Stage II,,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,1,0.6236883053760616,1,0.5787681099308264,1,0.6663773364124176,1
+46,Stage I,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.09658560641633782,0,0.21132730884697506,0,0.04168943636543109,0
+72,Stage III,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.9120695163164733,1,0.7275824273175956,1,0.6667296942093439,1
+48,Stage III,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Lobular Carcinoma,0,0.3574309209719189,0,0.39622480848467423,0,0.2015918203100604,0
+65,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.44172844751558554,0,0.40984208094538577,0,0.10290987337316376,0
+46,Stage II,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.1467928050887428,0,0.16147311407313555,0,0.006639905741891816,0
+62,Stage I,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.2977995878673753,0,0.4823742012691244,0,0.4928906091016773,0
+30,Stage II,BLACK OR AFRICAN AMERICAN,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.16027326120294533,0,0.3476268781239245,0,0.5767592791393595,1
+69,Stage II,WHITE,,Infiltrating Ductal Carcinoma,0,0.49075571844668403,0,0.5229327245890936,1,0.6043579486349016,1
+45,Stage I,WHITE,Indeterminate (neither Pre or Postmenopausal),Infiltrating Ductal Carcinoma,0,0.1557798366442575,0,0.2972726646742894,0,0.014351804914891915,0
+61,Stage III,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Lobular Carcinoma,0,0.6555542990636416,1,0.5790949929724788,1,0.33641880327908424,0
+80,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.6236883053760616,1,0.5787681099308264,1,0.6663773364124176,1
+46,Stage I,WHITE,,Infiltrating Ductal Carcinoma,0,0.16158614170707933,0,0.36599148341241894,0,0.07317029956957519,0
+50,Stage II,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.1732435879787205,0,0.19147371623141418,0,0.013336924422858517,0
+64,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.4296100323464024,0,0.410171727427951,0,0.108667639564916,0
+31,Stage I,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.04856192749429212,0,0.22297558546871105,0,0.01153500521690517,0
+54,Stage II,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.20332475504190808,0,0.18808700771302855,0,0.0010865997158091463,0
+60,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Mixed Histology (please specify),1,0.11615575168322863,0,0.3188296551567273,0,0.005194890301483657,0
+71,Stage III,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.8017738581307049,1,0.7095380340809119,1,0.7319653876242715,1
+70,Stage III,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,1,0.7938230631500509,1,0.7094088800303148,1,0.8022228671727362,1
+65,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Lobular Carcinoma,0,0.3786925236163075,0,0.4079478105147404,0,0.07298227470940676,0
+72,Stage III,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Lobular Carcinoma,0,0.7659817020481862,1,0.6866447834198431,1,0.6256841275413405,1
+68,Stage III,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.7772204754901738,1,0.7103065064151014,1,0.8512703520821248,1
+48,Stage II,WHITE,Peri (6-12 months since last menstrual period),Infiltrating Ductal Carcinoma,0,0.19417338399479467,0,0.2808520403835163,0,0.13664304748337183,0
+70,Stage I,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.605634596639322,1,0.5841042846653054,1,0.35581124343893467,0
+90,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,1,0.7306956843035997,1,0.581460978188562,1,0.6663773364124176,1
+73,Stage III,WHITE,,"Other, specify",0,0.8763970747690969,1,0.7066690713277777,1,0.6346052322885807,1
+69,Stage II,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.7017150205777057,1,0.548476372661221,1,0.4207746926619466,0
+56,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.33675695095469094,0,0.3425117751735436,0,0.05390102700441877,0
+79,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.6120507683236421,1,0.5769593072092783,1,0.6663773364124176,1
+45,Stage III,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,1,0.3837982229880987,0,0.3267102781543343,0,0.09124719993087099,0
+61,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.3938114077558654,0,0.340260857291324,0,0.005160546663551734,0
+37,Stage II,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.09942676042071939,0,0.18550672193390227,0,0.035980167517788014,0
+74,Stage III,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,1,0.8242331028994481,1,0.707669396505114,1,0.5356547024998982,1
+74,Stage III,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.8242331028994481,1,0.707669396505114,1,0.5356547024998982,1
+68,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Mixed Histology (please specify),0,0.1631450318471079,0,0.49795570714722315,0,0.6344817543416275,1
+66,Stage II,,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.4539166653090268,0,0.4749260933221871,0,0.3901389725350114,0
+73,Stage II,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.7412828463663892,1,0.5655902594559422,1,0.5101389189907731,1
+51,Stage II,WHITE,Indeterminate (neither Pre or Postmenopausal),"Other, specify",0,0.38800580617011277,0,0.2845920067533508,0,0.13708186852534085,0
+58,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.359117698209184,0,0.33916691003959465,0,0.0022396404786544214,0
+51,Stage II,WHITE,Peri (6-12 months since last menstrual period),Infiltrating Ductal Carcinoma,0,0.21836148755256712,0,0.2819892812415852,0,0.13708186852534085,0
+45,Stage III,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.3837982229880987,0,0.3267102781543343,0,0.09124719993087099,0
+50,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.2741767990405441,0,0.340679539427722,0,0.27174008568465063,0
+47,Stage II,WHITE,Peri (6-12 months since last menstrual period),Infiltrating Ductal Carcinoma,0,0.18657668540597358,0,0.25743030493493607,0,0.06288435413345146,0
+67,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.4661603701864267,0,0.4749260933221871,0,0.43095163684837473,0
+67,Stage I,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.5698213498121268,1,0.5795108975177491,1,0.5600128118959897,1
+73,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.5399614593371802,1,0.5500288810671767,1,0.6914831363862864,1
+45,Stage II,BLACK OR AFRICAN AMERICAN,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.28560768109480633,0,0.3361854877308932,0,0.007591287999357326,0
+58,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Mixed Histology (please specify),0,0.10641135040247067,0,0.31798899958799004,0,0.0022396404786544214,0
+71,Stage I,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.6173442708003758,1,0.5820001240874962,1,0.2785038486995678,0
+54,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Lobular Carcinoma,0,0.26166824479670725,0,0.3200598792352423,0,0.0009727930343991544,0
+89,Stage I,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.79666038322424,1,0.614779277280503,1,0.41059073691615466,0
+47,Stage I,WHITE,,Infiltrating Ductal Carcinoma,0,0.16837594307336662,0,0.3927625663138796,0,0.7184093514346915,1
+41,Stage II,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.11852827759690326,0,0.16666307138940978,0,0.02983528651354872,0
+49,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.26447738921865355,0,0.33724875130647214,0,0.3112292374417291,0
+62,Stage I,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.2977995878673753,0,0.4823742012691244,0,0.4928906091016773,0
+53,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.30456422410290895,0,0.33876243453543153,0,0.12009086179767567,0
+62,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.4056381500181589,0,0.3979696647673402,0,0.5911904191911582,1
+52,Stage II,WHITE,Peri (6-12 months since last menstrual period),Infiltrating Ductal Carcinoma,0,0.22689135899542173,0,0.28437341332219596,0,0.4965257254697664,0
+63,Stage IV,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,1,0.816486601589314,1,0.4890341437988998,0,0.5029939852167963,1
+58,Stage II,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.5776817008827219,1,0.45117133501284457,0,0.05717946419648428,0
+74,Stage I,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.43381772560202775,0,0.5503049977128093,1,0.09508098964679985,0
+57,Stage II,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.5656123286591563,1,0.4442781851409648,0,0.05946486301011634,0
+62,Stage II,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.6249078733030659,1,0.4841966363452563,0,0.5635201936281952,1
+70,Stage II,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.7119288012333418,1,0.5586396675508928,1,0.470155524930824,0
+60,Stage I,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.27760305646995365,0,0.4344866883981987,0,0.027536258740221402,0
+44,Stage II,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Lobular Carcinoma,0,0.10721438455364724,0,0.17521560312913134,0,0.000669365001795209,0
+46,Stage II,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.1467928050887428,0,0.16147311407313555,0,0.006639905741891816,0
+66,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.4539166653090268,0,0.4749260933221871,0,0.3901389725350114,0
+60,Stage I,WHITE,,Infiltrating Ductal Carcinoma,1,0.27760305646995365,0,0.4344866883981987,0,0.027536258740221402,0
+61,Stage II,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.613284666395164,1,0.4532554333571421,0,0.1330037565454849,0
+39,Stage II,BLACK OR AFRICAN AMERICAN,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.22924726991267996,0,0.34544457639429343,0,0.4997602001462567,0
+76,Stage III,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.8380620805122599,1,0.7100776111324859,1,0.5356547024998982,1
+58,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Mixed Histology (please specify),0,0.10641135040247067,0,0.31798899958799004,0,0.0022396404786544214,0
+59,Stage III,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.6912376029505374,1,0.5935515129056405,1,0.13225043499004663,0
+64,Stage IV,WHITE,Indeterminate (neither Pre or Postmenopausal),Infiltrating Ductal Carcinoma,0,0.8245973598212579,1,0.42942108814207847,0,0.4527902944883229,0
+39,Stage II,WHITE,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.10860930093153165,0,0.18332442020427123,0,0.02663359821268758,0
+55,Stage IV,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,1,0.8798324552763022,1,0.5146847386596094,1,0.1478422826726122,0
+60,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.3821078047485437,0,0.340007565608332,0,0.005194890301483657,0
+78,Stage III,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.9330756198726574,1,0.7470294802043654,1,0.8713957577118543,1
+54,Stage II,ASIAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.41193885001598674,0,0.3788461408385983,0,0.014251506926153673,0
+67,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.4661603701864267,0,0.4749260933221871,0,0.43095163684837473,0
+52,Stage IV,,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.7212174347602607,1,0.43242178373305745,0,0.3851561461106432,0
+63,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.4175754034743267,0,0.4014115792938042,0,0.14057618409333403,0
+34,Stage III,ASIAN,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,0,0.35542810770874034,0,0.41910799210724076,0,0.3019414491333783,0
+56,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.33675695095469094,0,0.3425117751735436,0,0.05390102700441877,0
+57,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.3478534928068078,0,0.33916691003959465,0,0.0023372408384078514,0
+72,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Lobular Carcinoma,0,0.4625562243292102,0,0.5539257064476397,1,0.7888143431136921,1
+85,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Lobular Carcinoma,0,0.6202813733164076,1,0.5850929026199037,1,0.8415433846923047,1
+77,Stage I,BLACK OR AFRICAN AMERICAN,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Medullary Carcinoma,0,0.5708089473908747,1,0.5950674414712677,1,0.4024264455562554,0
+45,Stage II,[Not Evaluated],Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Lobular Carcinoma,0,0.1611339009446664,0,0.2451074575507765,0,0.0004855227323039306,0
+53,Stage III,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Lobular Carcinoma,0,0.5619813077830695,1,0.5784847051195188,1,0.2565857702312644,0
+40,Stage II,BLACK OR AFRICAN AMERICAN,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),Infiltrating Ductal Carcinoma,1,0.23807285553469282,0,0.3510699905956276,0,0.753909949362697,1
+69,Stage II,BLACK OR AFRICAN AMERICAN,Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),"Other, specify",0,0.6745731500943223,1,0.426041320378861,0,0.26054890476504206,0
+62,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,0,0.4056381500181589,0,0.3979696647673402,0,0.5911904191911582,1
+62,Stage II,WHITE,Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),Infiltrating Ductal Carcinoma,1,0.4056381500181589,0,0.3979696647673402,0,0.5911904191911582,1

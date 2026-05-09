@@ -1,3 +1,19 @@
+# =============================================================================
+# 03_descriptive_analysis.R
+# Cohort descriptive statistics — TCGA-BRCA
+#
+# Purpose:
+#   Generate tabular summaries of the cleaned TCGA-BRCA cohort for use in the
+#   Streamlit dashboard: overall cohort metrics, stage distribution, gender
+#   breakdown, and age-group breakdown.
+#
+# Input:  data/processed/tcga_brca_survival_clean.csv
+# Output: data/processed/cohort_summary.csv
+#         data/processed/stage_summary.csv
+#         data/processed/gender_summary.csv
+#         data/processed/age_summary.csv
+# =============================================================================
+
 library(tidyverse)
 library(here)
 

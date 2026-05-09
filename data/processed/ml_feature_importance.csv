@@ -1,0 +1,16 @@
+feature,importance
+num__age,0.3675821624434609
+cat__stage_group_Stage III,0.21048151391617057
+cat__menopause_status_Pre (<6 months since LMP AND no prior bilateral ovariectomy AND not on estrogen replacement),0.11790936254455466
+cat__stage_group_Stage II,0.09472099314963818
+cat__menopause_status_Post (prior bilateral ovariectomy OR >12 mo since LMP with no prior hysterectomy),0.08122579805288632
+cat__race_BLACK OR AFRICAN AMERICAN,0.05087313632513961
+cat__race_WHITE,0.0453179254109441
+cat__histological_type_Infiltrating Lobular Carcinoma,0.0188419985843178
+cat__histological_type_Mixed Histology (please specify),0.010192032560115095
+cat__stage_group_Stage IV,0.0016607115845587805
+"cat__histological_type_Other, specify",0.0009344512423234597
+cat__menopause_status_Peri (6-12 months since last menstrual period),0.0002599141858905843
+cat__histological_type_Medullary Carcinoma,0.0
+cat__menopause_status_[Not Evaluated],0.0
+cat__histological_type_Metaplastic Carcinoma,0.0

@@ -23,6 +23,24 @@ def load_data():
     age_summary = pd.read_csv(DATA_DIR / "age_summary.csv")
     cox_results = pd.read_csv(DATA_DIR / "cox_results.csv")
     ph_test = pd.read_csv(DATA_DIR / "cox_ph_assumption_test.csv")
+
+    ml_status = None
+    ml_results = None
+    ml_feature_importance = None
+    ml_logistic_coefficients = None
+
+    if (DATA_DIR / "ml_three_year_status_summary.csv").exists():
+        ml_status = pd.read_csv(DATA_DIR / "ml_three_year_status_summary.csv")
+
+    if (DATA_DIR / "ml_model_comparison.csv").exists():
+        ml_results = pd.read_csv(DATA_DIR / "ml_model_comparison.csv")
+
+    if (DATA_DIR / "ml_feature_importance.csv").exists():
+        ml_feature_importance = pd.read_csv(DATA_DIR / "ml_feature_importance.csv")
+
+    if (DATA_DIR / "ml_logistic_coefficients.csv").exists():
+        ml_logistic_coefficients = pd.read_csv(DATA_DIR / "ml_logistic_coefficients.csv")
+
     return (
         cohort,
         cohort_summary,
@@ -31,7 +49,34 @@ def load_data():
         age_summary,
         cox_results,
         ph_test,
+        ml_status,
+        ml_results,
+        ml_feature_importance,
+        ml_logistic_coefficients,
     )
+
+
+def format_ml_status(ml_status: pd.DataFrame) -> pd.DataFrame:
+    label_map = {
+        "death_within_3y": "Death within 3 years",
+        "known_no_death_within_3y": "Alive at 3 years (known)",
+        "unknown_censored_before_3y": "Excluded — censored before 3 years",
+    }
+    display = ml_status.copy()
+    display["three_year_status"] = display["three_year_status"].map(label_map).fillna(
+        display["three_year_status"]
+    )
+    display = display.rename(
+        columns={
+            "three_year_status": "3-year outcome",
+            "n": "Patients (n)",
+            "percent": "Percent (%)",
+        }
+    )
+    order = ["Death within 3 years", "Alive at 3 years (known)", "Excluded — censored before 3 years"]
+    display["_sort"] = display["3-year outcome"].map({v: i for i, v in enumerate(order)}).fillna(99)
+    display = display.sort_values("_sort").drop(columns="_sort").reset_index(drop=True)
+    return display
 
 
 def format_cox_results(cox_results: pd.DataFrame) -> pd.DataFrame:
@@ -70,6 +115,10 @@ def section_divider():
     age_summary,
     cox_results,
     ph_test,
+    ml_status,
+    ml_results,
+    ml_feature_importance,
+    ml_logistic_coefficients,
 ) = load_data()
 
 # Sidebar
@@ -81,6 +130,7 @@ with st.sidebar:
         **Cancer type:** TCGA-BRCA  
         **Endpoint:** Overall survival  
         **Main model:** Cox regression
+        **ML extension:** 3-year mortality prediction
         """
     )
 
@@ -126,7 +176,8 @@ st.markdown(
     **TCGA Pan-Cancer Clinical Data Resource**. The current version focuses on
     **TCGA-BRCA breast cancer patients** and demonstrates data cleaning,
     Kaplan-Meier survival estimation, Cox proportional hazards regression,
-    model diagnostics, and epidemiological interpretation.
+    model diagnostics, and a machine learning extension for short-term mortality
+    risk prediction.
     """
 )
 
@@ -148,12 +199,13 @@ metric_col5.metric("Median age", f"{median_age} years")
 
 section_divider()
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
     [
         "Overview",
         "Cohort description",
         "Kaplan-Meier analysis",
         "Cox regression",
+        "ML risk prediction",
         "Methods and limitations",
     ]
 )
@@ -363,6 +415,195 @@ with tab4:
         st.success("No major global proportional hazards issue detected.")
 
 with tab5:
+    st.header("Machine learning risk prediction demo")
+
+    st.markdown(
+        """
+        This section demonstrates a Python-based machine learning extension to the
+        survival analysis workflow. The prediction task is **death within 3 years
+        after diagnosis**.
+
+        Patients censored before 3 years are excluded from this prediction target
+        because their 3-year outcome status is unknown. This avoids incorrectly
+        treating early-censored patients as survivors.
+        """
+    )
+
+    if ml_status is None or ml_results is None:
+        st.warning(
+            "ML outputs not found. Run notebooks/02_ml_risk_prediction_demo.ipynb first."
+        )
+    else:
+        st.subheader("3-year outcome definition")
+
+        st.dataframe(
+            format_ml_status(ml_status),
+            use_container_width=True,
+            hide_index=True,
+        )
+
+        st.info(
+            "Only patients with a known 3-year outcome status are used for model training "
+            "and evaluation. Patients censored before 3 years are excluded because their "
+            "3-year status is genuinely unknown — retaining them as 'survivors' would "
+            "introduce outcome misclassification bias."
+        )
+
+        st.subheader("Model comparison")
+
+        model_display = ml_results.copy()
+
+        numeric_cols = [
+            "auc",
+            "accuracy",
+            "balanced_accuracy",
+            "sensitivity_recall",
+            "specificity",
+            "precision",
+            "f1",
+            "cv_auc_mean",
+            "cv_auc_sd",
+        ]
+
+        for col in numeric_cols:
+            if col in model_display.columns:
+                model_display[col] = model_display[col].round(3)
+
+        st.dataframe(
+            model_display,
+            use_container_width=True,
+            hide_index=True,
+        )
+
+        selected_model = st.selectbox(
+            "Select a model to inspect",
+            model_display["model"].tolist(),
+        )
+
+        selected_row = model_display.loc[
+            model_display["model"] == selected_model
+        ].iloc[0]
+
+        col1, col2, col3, col4 = st.columns(4)
+
+        col1.metric("AUC", f"{selected_row['auc']:.3f}")
+        col2.metric("CV AUC", f"{selected_row['cv_auc_mean']:.3f}")
+        col3.metric("Sensitivity", f"{selected_row['sensitivity_recall']:.3f}")
+        col4.metric("Specificity", f"{selected_row['specificity']:.3f}")
+
+        st.markdown(
+            """
+            **Interpretation.** AUC measures discrimination, while sensitivity and
+            specificity show the trade-off between detecting patients who died within
+            3 years and correctly identifying those who did not. Because the outcome
+            is imbalanced, precision is expected to be limited.
+            """
+        )
+
+        roc_path = FIG_DIR / "ml_roc_curves.png"
+        auc_path = FIG_DIR / "ml_auc_comparison.png"
+
+        col_left, col_right = st.columns(2)
+
+        with col_left:
+            if roc_path.exists():
+                st.image(
+                    str(roc_path),
+                    caption="ROC curves for 3-year mortality prediction",
+                    use_container_width=True,
+                )
+            else:
+                st.warning("ROC curve plot not found.")
+
+        with col_right:
+            if auc_path.exists():
+                st.image(
+                    str(auc_path),
+                    caption="AUC comparison across ML models",
+                    use_container_width=True,
+                )
+            else:
+                st.warning("AUC comparison plot not found.")
+
+        calibration_path = FIG_DIR / "ml_calibration_curves.png"
+
+        if calibration_path.exists():
+            st.subheader("Calibration curves")
+            st.markdown(
+                "Calibration measures whether predicted probabilities match observed event "
+                "rates. A well-calibrated model follows the diagonal. The Brier score "
+                "summarises calibration error (lower = better)."
+            )
+            col_cal, _ = st.columns([1, 1])
+            with col_cal:
+                st.image(
+                    str(calibration_path),
+                    caption="Calibration curves for all models",
+                    use_container_width=True,
+                )
+
+        st.subheader("Best model confusion matrix")
+
+        confusion_path = FIG_DIR / "ml_confusion_matrix_best_model.png"
+
+        if confusion_path.exists():
+            col_cm, _ = st.columns([1, 1])
+            with col_cm:
+                st.image(
+                    str(confusion_path),
+                    caption="Confusion matrix for the best-performing model",
+                    use_container_width=True,
+                )
+        else:
+            st.warning("Confusion matrix plot not found.")
+
+        st.subheader("Model interpretation")
+
+        logistic_path = FIG_DIR / "ml_logistic_odds_ratios.png"
+        importance_path = FIG_DIR / "ml_feature_importance.png"
+
+        col_a, col_b = st.columns(2)
+
+        with col_a:
+            if logistic_path.exists():
+                st.image(
+                    str(logistic_path),
+                    caption="Logistic regression age and stage associations",
+                    use_container_width=True,
+                )
+
+        with col_b:
+            if importance_path.exists():
+                st.image(
+                    str(importance_path),
+                    caption="Random forest feature importance",
+                    use_container_width=True,
+                )
+
+        if ml_feature_importance is not None:
+            with st.expander("View random forest feature-importance table"):
+                st.dataframe(
+                    ml_feature_importance,
+                    use_container_width=True,
+                    hide_index=True,
+                )
+
+        if ml_logistic_coefficients is not None:
+            with st.expander("View logistic regression coefficients table"):
+                st.dataframe(
+                    ml_logistic_coefficients,
+                    use_container_width=True,
+                    hide_index=True,
+                )
+
+        st.warning(
+            "This ML analysis is a methodological demonstration. It is not intended "
+            "for clinical decision support. The models use a limited set of TCGA "
+            "clinical variables and would require external validation before any "
+            "clinical interpretation."
+        )
+
+with tab6:
     st.header("Methods and limitations")
 
     st.subheader("Dataset")
@@ -395,6 +636,10 @@ with tab5:
         - Log-rank comparison of survival curves
         - Cox proportional hazards regression
         - Proportional hazards assumption testing using Schoenfeld residuals
+        - Censoring-aware 3-year mortality prediction
+        - Logistic regression, random forest, and gradient boosting
+        - Train/test evaluation and stratified cross-validation
+        - ROC/AUC, sensitivity, specificity, precision, and F1-score
         """
     )
 
@@ -409,5 +654,6 @@ with tab5:
         - The Stage IV subgroup is small in the TCGA-BRCA subset.
         - The proportional hazards assumption may not hold perfectly for stage.
         - Results are for educational and portfolio purposes, not clinical decision support.
+        - The ML extension is a methodological risk-prediction demo and has not been externally validated.
         """
     )

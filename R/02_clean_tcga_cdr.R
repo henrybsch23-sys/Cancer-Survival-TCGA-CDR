@@ -25,6 +25,17 @@ raw <- read_excel(file_path, sheet = "TCGA-CDR") |>
 # Inspect available cancer types before subsetting
 print(sort(unique(raw$type)))
 
+# Establishing missing values
+missing_like_values <- c(
+  "#N/A",
+  "[Not Available]",
+  "[Unknown]",
+  "Not Available",
+  "Unknown",
+  "Not Reported",
+  ""
+)
+
 # ---------------------------------------------------------------------------
 # Subset to TCGA-BRCA and select/recode analysis variables
 # ---------------------------------------------------------------------------
@@ -42,9 +53,12 @@ clean_brca <- raw |>
     age         = suppressWarnings(as.numeric(age_at_initial_pathologic_diagnosis)),
 
     # Replace "#N/A" strings (Excel artefact) with proper NA
-    gender      = na_if(gender, "#N/A"),
-    race        = na_if(race, "#N/A"),
-    stage_raw   = na_if(ajcc_pathologic_tumor_stage, "#N/A"),
+    gender              = na_if(gender, "#N/A"),
+    race                = na_if(race, "#N/A"),
+    menopause_status    = na_if(menopause_status, "#N/A"),
+    histological_type   = na_if(histological_type, "#N/A"),
+    
+    stage_raw           = na_if(ajcc_pathologic_tumor_stage, "#N/A"),
 
     # Overall survival: 1 = death, 0 = censored (alive at last follow-up)
     os_event        = suppressWarnings(as.numeric(os)),
@@ -52,6 +66,13 @@ clean_brca <- raw |>
 
     # Convert follow-up to months; 30.44 = average days per calendar month
     os_time_months  = os_time_days / 30.44
+  ) |>
+  mutate(
+    # Applying the distinction and missing values
+    across(
+      where(is.character),
+      ~ if_else(.x %in% missing_like_values, NA_character_, .x)
+    )
   ) |>
   mutate(
     # Collapse detailed AJCC sub-stages (e.g. "Stage IIA", "Stage IIIC") into

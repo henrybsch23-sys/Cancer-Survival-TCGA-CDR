@@ -83,7 +83,6 @@ ph_results <- as.data.frame(ph_test$table) |>
   rownames_to_column("term") |>
   as_tibble() |>
   rename(
-    chisq   = chisq,
     p_value = p
   ) |>
   mutate(

@@ -18,7 +18,11 @@ library(tidyverse)
 library(here)
 
 df <- read_csv(here("data", "processed", "tcga_brca_survival_clean.csv"),
-               show_col_types = FALSE)
+               show_col_types = FALSE) |>
+  # Remove patients with unknown stage so the KM plot shows only labelled groups.
+  # The 24 patients with stage_group = NA (mostly "Stage X" raw codes) would
+  # otherwise appear as a separate unlabelled stratum.
+  filter(!is.na(stage_group))
 
 # ---------------------------------------------------------------------------
 # Kaplan-Meier estimator stratified by pathological stage
