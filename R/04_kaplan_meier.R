@@ -8,8 +8,8 @@
 #   used to evaluate whether survival distributions differ across stage groups.
 #   The output figure is used in the Streamlit dashboard.
 #
-# Input:  data/processed/tcga_brca_survival_clean.csv
-# Output: figures/km_stage_plot.png
+# Input:  data/processed/brca_survival_clean.csv
+# Output: figures/brca_km_stage_plot.png
 # =============================================================================
 
 library(survival)
@@ -17,7 +17,7 @@ library(survminer)
 library(tidyverse)
 library(here)
 
-df <- read_csv(here("data", "processed", "tcga_brca_survival_clean.csv"),
+df <- read_csv(here("data", "processed", "brca_survival_clean.csv"),
                show_col_types = FALSE) |>
   # Remove patients with unknown stage so the KM plot shows only labelled groups.
   # The 24 patients with stage_group = NA (mostly "Stage X" raw codes) would
@@ -44,7 +44,7 @@ fit <- survfit(Surv(os_time_months, os_event) ~ stage_group, data = df)
 # pval = TRUE displays the log-rank p-value testing the null hypothesis that
 # all survival curves are identical.
 
-png(here("figures", "km_stage_plot.png"), width = 1000, height = 800)
+png(here("figures", "brca_km_stage_plot.png"), width = 1000, height = 800)
 print(
   ggsurvplot(
     fit,
@@ -59,7 +59,7 @@ print(
 )
 dev.off()
 
-cat("\nKaplan-Meier plot saved to figures/km_stage_plot.png\n")
+cat("\nKaplan-Meier plot saved to figures/brca_km_stage_plot.png\n")
 # Result: curves show progressively lower survival with advancing stage;
 # the log-rank test is statistically significant, motivating the Cox model
 # in 05_cox_regression.R.

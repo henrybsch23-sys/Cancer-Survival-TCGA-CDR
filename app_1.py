@@ -16,30 +16,40 @@ FIG_DIR = Path("figures")
 
 @st.cache_data
 def load_data():
-    cohort = pd.read_csv(DATA_DIR / "tcga_brca_survival_clean.csv")
-    cohort_summary = pd.read_csv(DATA_DIR / "cohort_summary.csv")
-    stage_summary = pd.read_csv(DATA_DIR / "stage_summary.csv")
-    gender_summary = pd.read_csv(DATA_DIR / "gender_summary.csv")
-    age_summary = pd.read_csv(DATA_DIR / "age_summary.csv")
-    cox_results = pd.read_csv(DATA_DIR / "cox_results.csv")
-    ph_test = pd.read_csv(DATA_DIR / "cox_ph_assumption_test.csv")
+    cohort = pd.read_csv(DATA_DIR / "brca_survival_clean.csv")
+    cohort_summary = pd.read_csv(DATA_DIR / "brca_cohort_summary.csv")
+    stage_summary = pd.read_csv(DATA_DIR / "brca_stage_summary.csv")
+    gender_summary = pd.read_csv(DATA_DIR / "brca_gender_summary.csv")
+    age_summary = pd.read_csv(DATA_DIR / "brca_age_summary.csv")
+    cox_results = pd.read_csv(DATA_DIR / "brca_cox_results.csv")
+    ph_test = pd.read_csv(DATA_DIR / "brca_cox_ph_assumption_test.csv")
 
     ml_status = None
     ml_results = None
     ml_feature_importance = None
     ml_logistic_coefficients = None
 
-    if (DATA_DIR / "ml_three_year_status_summary.csv").exists():
-        ml_status = pd.read_csv(DATA_DIR / "ml_three_year_status_summary.csv")
+    if (DATA_DIR / "brca_ml_three_year_status_summary.csv").exists():
+        ml_status = pd.read_csv(DATA_DIR / "brca_ml_three_year_status_summary.csv")
 
-    if (DATA_DIR / "ml_model_comparison.csv").exists():
-        ml_results = pd.read_csv(DATA_DIR / "ml_model_comparison.csv")
+    if (DATA_DIR / "brca_ml_model_comparison.csv").exists():
+        ml_results = pd.read_csv(DATA_DIR / "brca_ml_model_comparison.csv")
 
-    if (DATA_DIR / "ml_feature_importance.csv").exists():
-        ml_feature_importance = pd.read_csv(DATA_DIR / "ml_feature_importance.csv")
+    if (DATA_DIR / "brca_ml_feature_importance.csv").exists():
+        ml_feature_importance = pd.read_csv(DATA_DIR / "brca_ml_feature_importance.csv")
 
-    if (DATA_DIR / "ml_logistic_coefficients.csv").exists():
-        ml_logistic_coefficients = pd.read_csv(DATA_DIR / "ml_logistic_coefficients.csv")
+    if (DATA_DIR / "brca_ml_logistic_coefficients.csv").exists():
+        ml_logistic_coefficients = pd.read_csv(DATA_DIR / "brca_ml_logistic_coefficients.csv")
+
+    # v3 — multi-cancer comparison data
+    mc_cohort = None
+    mc_cox = None
+
+    if (DATA_DIR / "multicancer_cohort_comparison.csv").exists():
+        mc_cohort = pd.read_csv(DATA_DIR / "multicancer_cohort_comparison.csv")
+
+    if (DATA_DIR / "multicancer_cox_results.csv").exists():
+        mc_cox = pd.read_csv(DATA_DIR / "multicancer_cox_results.csv")
 
     return (
         cohort,
@@ -53,6 +63,8 @@ def load_data():
         ml_results,
         ml_feature_importance,
         ml_logistic_coefficients,
+        mc_cohort,
+        mc_cox,
     )
 
 
@@ -119,6 +131,8 @@ def section_divider():
     ml_results,
     ml_feature_importance,
     ml_logistic_coefficients,
+    mc_cohort,
+    mc_cox,
 ) = load_data()
 
 # Sidebar
@@ -127,10 +141,10 @@ with st.sidebar:
     st.markdown(
         """
         **Dataset:** TCGA-CDR  
-        **Cancer type:** TCGA-BRCA  
+        **Cancer types:** TCGA-BRCA · TCGA-LUAD  
         **Endpoint:** Overall survival  
-        **Main model:** Cox regression
-        **ML extension:** 3-year mortality prediction
+        **Main model:** Cox regression  
+        **ML extension:** 3-year mortality prediction (BRCA)
         """
     )
 
@@ -199,7 +213,7 @@ metric_col5.metric("Median age", f"{median_age} years")
 
 section_divider()
 
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
     [
         "Overview",
         "Cohort description",
@@ -207,6 +221,7 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
         "Cox regression",
         "ML risk prediction",
         "Methods and limitations",
+        "Multi-cancer comparison",
     ]
 )
 
@@ -251,7 +266,7 @@ with tab1:
         st.download_button(
             label="Download cleaned cohort CSV",
             data=csv,
-            file_name="tcga_brca_survival_clean.csv",
+            file_name="brca_survival_clean.csv",
             mime="text/csv",
         )
 
@@ -335,7 +350,7 @@ with tab3:
         """
     )
 
-    km_path = FIG_DIR / "km_stage_plot.png"
+    km_path = FIG_DIR / "brca_km_stage_plot.png"
 
     if km_path.exists():
         st.image(
@@ -344,7 +359,7 @@ with tab3:
             use_container_width=True,
         )
     else:
-        st.warning("Kaplan-Meier plot not found. Run R/04_kaplan_meier.R first.")
+        st.warning("Kaplan-Meier plot not found. Run R/04_kaplan_meier.R to regenerate.")
 
     st.info(
         "The Kaplan-Meier curves show lower overall survival among patients with "
@@ -373,7 +388,7 @@ with tab4:
         hide_index=True,
     )
 
-    forest_path = FIG_DIR / "cox_forest_plot.png"
+    forest_path = FIG_DIR / "brca_cox_forest_plot.png"
 
     if forest_path.exists():
         st.subheader("Hazard ratio forest plot")
@@ -383,7 +398,7 @@ with tab4:
             use_container_width=True,
         )
     else:
-        st.warning("Cox forest plot not found. Run R/05_cox_regression.R first.")
+        st.warning("Cox forest plot not found. Run R/05_cox_regression.R to regenerate.")
 
     st.subheader("Interpretation")
 
@@ -431,7 +446,7 @@ with tab5:
 
     if ml_status is None or ml_results is None:
         st.warning(
-            "ML outputs not found. Run notebooks/02_ml_risk_prediction_demo.ipynb first."
+            "ML outputs not found. Run notebooks/02_ml_risk_prediction_demo.ipynb to regenerate."
         )
     else:
         st.subheader("3-year outcome definition")
@@ -500,8 +515,8 @@ with tab5:
             """
         )
 
-        roc_path = FIG_DIR / "ml_roc_curves.png"
-        auc_path = FIG_DIR / "ml_auc_comparison.png"
+        roc_path = FIG_DIR / "brca_ml_roc_curves.png"
+        auc_path = FIG_DIR / "brca_ml_auc_comparison.png"
 
         col_left, col_right = st.columns(2)
 
@@ -525,7 +540,7 @@ with tab5:
             else:
                 st.warning("AUC comparison plot not found.")
 
-        calibration_path = FIG_DIR / "ml_calibration_curves.png"
+        calibration_path = FIG_DIR / "brca_ml_calibration_curves.png"
 
         if calibration_path.exists():
             st.subheader("Calibration curves")
@@ -544,7 +559,7 @@ with tab5:
 
         st.subheader("Best model confusion matrix")
 
-        confusion_path = FIG_DIR / "ml_confusion_matrix_best_model.png"
+        confusion_path = FIG_DIR / "brca_ml_confusion_matrix_best_model.png"
 
         if confusion_path.exists():
             col_cm, _ = st.columns([1, 1])
@@ -559,8 +574,8 @@ with tab5:
 
         st.subheader("Model interpretation")
 
-        logistic_path = FIG_DIR / "ml_logistic_odds_ratios.png"
-        importance_path = FIG_DIR / "ml_feature_importance.png"
+        logistic_path = FIG_DIR / "brca_ml_logistic_odds_ratios.png"
+        importance_path = FIG_DIR / "brca_ml_feature_importance.png"
 
         col_a, col_b = st.columns(2)
 
@@ -645,7 +660,7 @@ with tab6:
 
     st.subheader("Limitations")
 
-    st.markdown(
+        st.markdown(
         """
         - TCGA is not a population-based cancer registry.
         - The analysis is observational and should not be interpreted causally.
@@ -657,3 +672,128 @@ with tab6:
         - The ML extension is a methodological risk-prediction demo and has not been externally validated.
         """
     )
+
+with tab7:
+    st.header("Multi-cancer comparison: BRCA vs LUAD")
+
+    st.markdown(
+        """
+        This section extends the analysis to **TCGA-LUAD** (lung adenocarcinoma) and
+        compares survival patterns with **TCGA-BRCA** (breast cancer). Both cohorts use
+        the same endpoint (overall survival), the same predictor set (age + pathological
+        stage), and the same Cox model specification, enabling direct comparison of
+        effect estimates across cancer types.
+        """
+    )
+
+    if mc_cohort is None or mc_cox is None:
+        st.warning(
+            "Multi-cancer comparison outputs not found. "
+            "Run R/07 through R/11 to generate LUAD and comparison files."
+        )
+    else:
+        section_divider()
+        st.subheader("Cohort comparison")
+
+        display_cohort = mc_cohort.rename(columns={
+            "cancer_type":             "Cancer type",
+            "n_patients":              "Patients (n)",
+            "n_os_events":             "OS events (n)",
+            "os_event_rate_pct":       "Event rate (%)",
+            "median_follow_up_months": "Median follow-up (months)",
+            "median_age":              "Median age",
+            "n_missing_stage":         "Missing stage (n)",
+        })
+
+        st.dataframe(display_cohort, use_container_width=True, hide_index=True)
+
+        st.info(
+            "LUAD typically has a substantially higher event rate and shorter "
+            "median follow-up than BRCA, reflecting the more aggressive natural "
+            "history of lung adenocarcinoma."
+        )
+
+        section_divider()
+        st.subheader("Kaplan-Meier survival comparison")
+
+        st.markdown(
+            "Overall survival curves are shown for the full cohort of each cancer "
+            "type (not stratified by stage). The shaded bands are 95% confidence intervals."
+        )
+
+        km_mc_path = FIG_DIR / "multicancer_km_comparison.png"
+
+        if km_mc_path.exists():
+            st.image(
+                str(km_mc_path),
+                caption="Overall survival: TCGA-BRCA vs TCGA-LUAD",
+                use_container_width=True,
+            )
+        else:
+            st.warning("Multi-cancer KM plot not found. Run R/11_multicancer_comparison.R.")
+
+        section_divider()
+        st.subheader("Cox model hazard ratio comparison")
+
+        st.markdown(
+            """
+            Both models use the same specification: `Surv(os_time_months, os_event) ~ age + stage_group`
+            with Stage I as the reference. Hazard ratios from each cancer type are overlaid
+            for direct comparison.
+            """
+        )
+
+        cox_mc_path = FIG_DIR / "multicancer_cox_comparison.png"
+
+        if cox_mc_path.exists():
+            st.image(
+                str(cox_mc_path),
+                caption="Cox hazard ratios: BRCA vs LUAD",
+                use_container_width=True,
+            )
+        else:
+            st.warning("Multi-cancer Cox plot not found. Run R/11_multicancer_comparison.R.")
+
+        st.subheader("Hazard ratio table")
+
+        def format_mc_cox(df: pd.DataFrame) -> pd.DataFrame:
+            display = df.copy()
+            display["Hazard ratio"] = display["estimate"].round(2)
+            display["95% CI"] = (
+                display["conf.low"].round(2).astype(str)
+                + "\u2013"
+                + display["conf.high"].round(2).astype(str)
+            )
+            display["p-value"] = display["p.value"].apply(
+                lambda x: "<0.001" if x < 0.001 else f"{x:.3f}"
+            )
+            return display[["cancer_type", "term_label", "Hazard ratio", "95% CI", "p-value"]].rename(
+                columns={"cancer_type": "Cancer type", "term_label": "Predictor"}
+            )
+
+        st.dataframe(
+            format_mc_cox(mc_cox),
+            use_container_width=True,
+            hide_index=True,
+        )
+
+        section_divider()
+        st.subheader("Interpretation")
+
+        st.markdown(
+            """
+            - **Stage gradient:** Both cancers show a clear dose–response relationship
+              between advancing stage and higher mortality hazard, validating stage as a
+              strong prognostic marker across cancer types.
+            - **Magnitude of stage effects:** Stage III and IV hazard ratios tend to be
+              larger in LUAD than BRCA, reflecting the steeper survival gradient in lung cancer.
+            - **Age effect:** The per-year age hazard ratio is typically similar across
+              both cancers, suggesting age-related risk is relatively consistent.
+            - **Baseline survival:** Even within the same stage, LUAD patients have
+              substantially lower baseline survival than BRCA patients.
+            - **Interpretation caveat:** Both models are fitted independently within each
+              cancer type and share no patients. Differences in HRs do not directly imply
+              causal differences — they may reflect differences in treatment, follow-up
+              patterns, or unmeasured confounders.
+            """
+        )

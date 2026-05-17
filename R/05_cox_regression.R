@@ -8,10 +8,10 @@
 #   proportional hazards (PH) assumption via Schoenfeld residuals and
 #   produce a forest plot of hazard ratios.
 #
-# Input:  data/processed/tcga_brca_survival_clean.csv
-# Output: data/processed/cox_results.csv
-#         data/processed/cox_ph_assumption_test.csv
-#         figures/cox_forest_plot.png
+# Input:  data/processed/brca_survival_clean.csv
+# Output: data/processed/brca_cox_results.csv
+#         data/processed/brca_cox_ph_assumption_test.csv
+#         figures/brca_cox_forest_plot.png
 # =============================================================================
 
 library(survival)
@@ -23,7 +23,7 @@ library(here)
 # Load data and prepare model-ready dataset
 # ---------------------------------------------------------------------------
 df <- read_csv(
-  here("data", "processed", "tcga_brca_survival_clean.csv"),
+  here("data", "processed", "brca_survival_clean.csv"),
   show_col_types = FALSE
 ) |>
   filter(
@@ -93,8 +93,8 @@ ph_results <- as.data.frame(ph_test$table) |>
 # ---------------------------------------------------------------------------
 # Export model results
 # ---------------------------------------------------------------------------
-write_csv(cox_results, here("data", "processed", "cox_results.csv"))
-write_csv(ph_results,  here("data", "processed", "cox_ph_assumption_test.csv"))
+write_csv(cox_results, here("data", "processed", "brca_cox_results.csv"))
+write_csv(ph_results,  here("data", "processed", "brca_cox_ph_assumption_test.csv"))
 
 cat("\nCox proportional hazards model results:\n")
 print(cox_results)
@@ -102,7 +102,7 @@ print(cox_results)
 cat("\nProportional hazards assumption test (Schoenfeld residuals):\n")
 print(ph_results)
 
-cat("\nCox model outputs saved to data/processed/\n")
+cat("\nCox model outputs saved to data/processed/ (brca_ prefix)\n")
 
 # ---------------------------------------------------------------------------
 # Forest plot of hazard ratios
@@ -157,7 +157,7 @@ forest_plot <- ggplot(
   )
 
 ggsave(
-  here("figures", "cox_forest_plot.png"),
+  here("figures", "brca_cox_forest_plot.png"),
   forest_plot,
   width  = 8,
   height = 5,
@@ -165,4 +165,4 @@ ggsave(
   bg     = "white"
 )
 
-cat("\nForest plot saved to figures/cox_forest_plot.png\n")
+cat("\nForest plot saved to figures/brca_cox_forest_plot.png\n")

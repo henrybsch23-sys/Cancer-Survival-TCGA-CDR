@@ -7,18 +7,18 @@
 #   Streamlit dashboard: overall cohort metrics, stage distribution, gender
 #   breakdown, and age-group breakdown.
 #
-# Input:  data/processed/tcga_brca_survival_clean.csv
-# Output: data/processed/cohort_summary.csv
-#         data/processed/stage_summary.csv
-#         data/processed/gender_summary.csv
-#         data/processed/age_summary.csv
+# Input:  data/processed/brca_survival_clean.csv
+# Output: data/processed/brca_cohort_summary.csv
+#         data/processed/brca_stage_summary.csv
+#         data/processed/brca_gender_summary.csv
+#         data/processed/brca_age_summary.csv
 # =============================================================================
 
 library(tidyverse)
 library(here)
 
 df <- read_csv(
-  here("data", "processed", "tcga_brca_survival_clean.csv"),
+  here("data", "processed", "brca_survival_clean.csv"),
   show_col_types = FALSE
 )
 
@@ -59,10 +59,10 @@ age_summary <- df |>
     percent = round(100 * n / sum(n), 1)
   )
 
-write_csv(cohort_summary, here("data", "processed", "cohort_summary.csv"))
-write_csv(stage_summary, here("data", "processed", "stage_summary.csv"))
-write_csv(gender_summary, here("data", "processed", "gender_summary.csv"))
-write_csv(age_summary, here("data", "processed", "age_summary.csv"))
+write_csv(cohort_summary, here("data", "processed", "brca_cohort_summary.csv"))
+write_csv(stage_summary, here("data", "processed", "brca_stage_summary.csv"))
+write_csv(gender_summary, here("data", "processed", "brca_gender_summary.csv"))
+write_csv(age_summary, here("data", "processed", "brca_age_summary.csv"))
 
 cat("\nCohort summary:\n")
 print(cohort_summary)

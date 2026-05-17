@@ -5,7 +5,7 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data" / "processed"
 
-cohort = pd.read_csv(DATA_DIR / "tcga_brca_survival_clean.csv")
+cohort = pd.read_csv(DATA_DIR / "brca_survival_clean.csv")
 
 summary = {
     "patients": len(cohort),
