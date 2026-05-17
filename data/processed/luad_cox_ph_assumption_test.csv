@@ -1,0 +1,4 @@
+term,chisq,df,p_value
+age,0.509,1,0.476
+stage_group,8.066,3,0.0447
+GLOBAL,8.949,4,0.0624

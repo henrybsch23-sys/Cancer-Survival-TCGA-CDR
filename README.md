@@ -1,4 +1,4 @@
-# TCGA Breast Cancer Survival Analysis
+# TCGA Survival Analysis — BRCA & LUAD
 
 ## Live dashboard
 
@@ -6,18 +6,18 @@ A deployed version of the Streamlit dashboard is available here:
 
 https://cancer-survival-tcga-cdr-gzxwsq2dbktxmjtlet76rz.streamlit.app/
 
-The dashboard presents cohort summaries, Kaplan–Meier survival curves, Cox proportional hazards regression results, model diagnostics, a machine learning risk prediction demo, and visual interpretations of survival patterns among TCGA-BRCA breast cancer patients.
+The dashboard presents cohort summaries, Kaplan–Meier survival curves, Cox proportional hazards regression results, model diagnostics, a machine learning risk prediction demo (BRCA), and a multi-cancer survival comparison between **TCGA-BRCA** (breast cancer) and **TCGA-LUAD** (lung adenocarcinoma). A cancer type selector in the sidebar drives all tabs dynamically.
 
 ---
 
 ## Overview
 
-This project demonstrates a reproducible survival analysis and machine learning workflow using the open-access **TCGA Pan-Cancer Clinical Data Resource (TCGA-CDR)**. The analysis focuses on breast cancer patients (TCGA-BRCA) and covers the full pipeline from raw data to an interactive dashboard.
+This project demonstrates a reproducible survival analysis and machine learning workflow using the open-access **TCGA Pan-Cancer Clinical Data Resource (TCGA-CDR)**. The analysis covers **TCGA-BRCA** (breast cancer) and **TCGA-LUAD** (lung adenocarcinoma), enabling both within-cancer and cross-cancer survival comparisons across the full pipeline from raw data to an interactive dashboard.
 
 The project is split across two languages by design:
 
-- **R** — data cleaning, descriptive statistics, Kaplan–Meier survival estimation, Cox proportional hazards regression, and model diagnostics.
-- **Python** — data validation notebooks, machine learning risk prediction, and an interactive Streamlit dashboard.
+- **R** — data cleaning, descriptive statistics, Kaplan–Meier survival estimation, Cox proportional hazards regression, model diagnostics, and multi-cancer comparison.
+- **Python** — data validation notebooks, machine learning risk prediction (BRCA), and an interactive Streamlit dashboard.
 
 ---
 
@@ -57,8 +57,10 @@ Only open-access clinical and survival outcome data are used. No controlled-acce
 
 ## Research Questions
 
-1. Among TCGA-BRCA patients, are **age at diagnosis** and **pathological tumour stage** associated with overall survival?
-2. Can a **censoring-aware** machine learning classifier predict 3-year mortality using clinical variables available at diagnosis?
+1. Among **TCGA-BRCA** patients, are **age at diagnosis** and **pathological tumour stage** associated with overall survival?
+2. Among **TCGA-LUAD** patients, do the same predictors show comparable associations with overall survival?
+3. How do survival patterns and stage-specific hazard ratios **compare across BRCA and LUAD**?
+4. Can a **censoring-aware** machine learning classifier predict 3-year mortality in BRCA using clinical variables available at diagnosis?
 
 ---
 
@@ -82,7 +84,7 @@ Only open-access clinical and survival outcome data are used. No controlled-acce
 | `notebooks/01_python_data_check.ipynb` | Load cleaned cohort, inspect missingness, validate distributions |
 | `notebooks/02_ml_risk_prediction_demo.ipynb` | Censoring-aware 3-year mortality prediction with Logistic Regression, Random Forest, and Gradient Boosting |
 
-### Part 3 — LUAD pipeline and multi-cancer comparison (R, v3)
+### Part 3 — LUAD pipeline and multi-cancer comparison (R + Python, v3)
 
 | Step | Script | Description |
 |---|---|---|
@@ -92,6 +94,10 @@ Only open-access clinical and survival outcome data are used. No controlled-acce
 | 10 | `R/10_cox_regression_luad.R` | Cox regression (age + stage) for LUAD, forest plot |
 | 11 | `R/11_multicancer_comparison.R` | Overlaid KM plot, side-by-side Cox forest plot, combined cohort table |
 | 12 | `R/12_export_for_streamlit_v3.R` | Validate all v3 processed files |
+
+| Notebook | Description |
+|---|---|
+| `notebooks/03_python_luad_data_check.ipynb` | Load and validate LUAD cohort; display multi-cancer comparison outputs |
 
 The ML outcome definition excludes patients censored before 3 years (53.2 % of the cohort) because their 3-year status is unknown. This avoids outcome misclassification bias and mirrors the landmark analysis approach used in clinical epidemiology.
 
@@ -106,7 +112,7 @@ The ML outcome definition excludes patients censored before 3 years (53.2 % of t
 | `age_at_initial_pathologic_diagnosis` | `age` | Continuous predictor |
 | `gender` | `gender` | Descriptive variable |
 | `race` | `race` | Descriptive / ML feature |
-| `menopause_status` | `menopause_status` | Descriptive / ML feature |
+| `menopause_status` | `menopause_status` | Descriptive / ML feature (BRCA only) |
 | `histological_type` | `histological_type` | Descriptive / ML feature |
 | `ajcc_pathologic_tumor_stage` | `stage_group` | Main clinical predictor (grouped I–IV) |
 | `OS` | `os_event` | Survival event indicator (1 = death) |
@@ -116,7 +122,7 @@ Other TCGA-CDR endpoints (`DSS`, `DFI`, `PFI`) are not used in the current versi
 
 ---
 
-## Key Results
+## Key Results (TCGA-BRCA)
 
 ### Cohort
 
@@ -178,7 +184,7 @@ Cancer-Survival-TCGA-CDR/
 │   └── processed/            ← Generated outputs (brca_*, luad_*, multicancer_*)
 │
 ├── R/                        ← Scripts 01–06 (BRCA), 07–12 (LUAD + comparison)
-├── notebooks/                ← 01 data validation, 02 ML risk prediction (BRCA)
+├── notebooks/                ← 01 BRCA validation, 02 BRCA ML, 03 LUAD validation + comparison
 ├── python/                   ← Utility helpers for the Streamlit app
 ├── figures/                  ← Plots (brca_*, luad_*, multicancer_*)
 └── reports/                  ← Short project report and code sample
@@ -246,16 +252,20 @@ Rscript R/11_multicancer_comparison.R
 Rscript R/12_export_for_streamlit_v3.R
 ```
 
+Then open and run `notebooks/03_python_luad_data_check.ipynb` to validate the LUAD cohort and inspect the comparison outputs.
+
 > **Note:** Each script reads the output of the preceding one. If you update an earlier script, rerun it and all subsequent scripts to keep processed files consistent.
 
 ### Step 3 — Run the Python notebooks (in order)
 
-Open and run all cells in:
+**v1/v2 — BRCA validation and ML:**
 
-1. `notebooks/01_python_data_check.ipynb`
-2. `notebooks/02_ml_risk_prediction_demo.ipynb`
+1. `notebooks/01_python_data_check.ipynb` — validate BRCA cohort
+2. `notebooks/02_ml_risk_prediction_demo.ipynb` — generate ML outputs and figures
 
-These generate the ML outputs and figures saved to `data/processed/` and `figures/`.
+**v3 — LUAD validation and comparison:**
+
+3. `notebooks/03_python_luad_data_check.ipynb` — validate LUAD cohort and inspect comparison outputs (requires v3 R pipeline to have been run first)
 
 ### Step 4 — Launch the Streamlit app
 
@@ -267,17 +277,17 @@ streamlit run app_1.py
 
 ## Streamlit Dashboard
 
-The app is organised into six tabs:
+A **cancer type selector** in the sidebar (BRCA or LUAD) drives all tabs dynamically. The app is organised into seven tabs:
 
 | Tab | Content |
 |---|---|
-| Overview | Analysis summary and preview of the cleaned BRCA dataset |
-| Cohort description | Stage, age, and gender distributions with sidebar filters (BRCA) |
-| Kaplan–Meier analysis | Survival curves by pathological stage (BRCA) |
-| Cox regression | Hazard ratio table, forest plot, and PH assumption test (BRCA) |
-| ML risk prediction | 3-year mortality prediction demo with model comparison, ROC curves, calibration, confusion matrix, and model interpretation (BRCA) |
-| Methods and limitations | Full methodological description and limitations |
-| Multi-cancer comparison | BRCA vs LUAD cohort table, overlaid KM curves, side-by-side Cox forest plot |
+| Overview | Cohort summary table and analysis-ready dataset preview for the selected cancer |
+| Cohort description | Stage, age, and gender distributions for the selected cancer |
+| Kaplan–Meier analysis | Survival curves by pathological stage for the selected cancer |
+| Cox regression | Hazard ratio table, forest plot, and PH assumption test for the selected cancer |
+| ML risk prediction | 3-year mortality prediction demo (BRCA only; informational message shown for LUAD) |
+| Methods and limitations | Full methodological description covering both cancer types |
+| Multi-cancer comparison | BRCA vs LUAD: cohort table, overlaid KM curves, side-by-side Cox forest plot |
 
 ---
 

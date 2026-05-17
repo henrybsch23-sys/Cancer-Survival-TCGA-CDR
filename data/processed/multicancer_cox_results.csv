@@ -1,0 +1,9 @@
+cancer_type,term,term_label,estimate,conf.low,conf.high,p.value
+TCGA-BRCA,age,"Age, per year",1.036,1.022,1.049,1.8e-7
+TCGA-BRCA,stage_groupStage II,Stage II vs I,1.797,1.036,3.116,0.0371
+TCGA-BRCA,stage_groupStage III,Stage III vs I,3.614,2.027,6.443,1.33e-5
+TCGA-BRCA,stage_groupStage IV,Stage IV vs I,12.083,5.96,24.496,4.81e-12
+TCGA-LUAD,age,"Age, per year",1.009,0.994,1.024,0.257
+TCGA-LUAD,stage_groupStage II,Stage II vs I,2.282,1.583,3.288,9.72e-6
+TCGA-LUAD,stage_groupStage III,Stage III vs I,3.228,2.2,4.737,2.12e-9
+TCGA-LUAD,stage_groupStage IV,Stage IV vs I,3.71,2.136,6.445,3.25e-6
