@@ -3,7 +3,8 @@ __pycache__/
 .venv/
 *.pyc
 .env
-#the last one is my password
+
+#the last one is my password, so I don't want to share it with anyone
 # R
 .Rhistory
 .RData
